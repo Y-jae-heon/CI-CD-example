@@ -1,5 +1,5 @@
 ## slack
-- Slack Message Webhook Example
+- Slack Message WebhookURL
 - Pull Request Automatic Assign and Reviewers
 - Pull Request Dead Line Setting js ( calculatePRDeadline.js )
 
