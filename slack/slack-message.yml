@@ -12,7 +12,8 @@ jobs:
         uses: hkusu/review-assign-action@v1
         with:
           assignees: ${{ github.actor }} # assign pull request author
-          reviewers: reviewer # if draft, assigned when draft is released
+          reviewers: reviewers1 # if draft, assigned when draft is released
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -25,6 +26,7 @@ jobs:
 
       - name: Set environment variable
         run: echo "PR_CREATED_AT_UTC=${{ github.event.pull_request.created_at }}" >> $GITHUB_ENV
+
       - name: Convert UTC to KST
         run: |
           UTC_TIME=$PR_CREATED_AT_UTC
@@ -37,22 +39,56 @@ jobs:
         env:
           PR_CREATED_AT_KST: ${{ env.PR_CREATED_AT_KST }}
 
+      # - name: Run Slack Convert Script
+      #   id: slack_convert
+      #   run: node .github/workflows/scripts/convertSlackMrkdwn.js
+      #   env:
+      #     PR_BODY: ${{ github.event.pull_request.body }}
+
       - name: Send Slack notification When FE PR
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
             {
-                "text": "",
-                "blocks": [
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "<${{ steps.remove_https.outputs.pr_url }}|${{ github.event.pull_request.title }}>\n코드리뷰 마감시간: ${{ steps.deadline.outputs.DEADLINE }}"
-                        }
-                    }
-                ]
-            }
+               "text": "Pull Request 정보",
+               "blocks": [
+                 {
+                   "type": "section",
+                   "text": {
+                     "type": "mrkdwn",
+                     "text": "*Pull Request Title:* <${{ steps.remove_https.outputs.pr_url }}|${{ github.event.pull_request.title }}>"
+                   }
+                 },
+                 {
+                   "type": "section",
+                   "text": {
+                     "type": "mrkdwn",
+                     "text": "*리뷰어:* <@Slack-ID>, <@Slack-ID>"
+                   }
+                 },
+                 {
+                   "type": "section",
+                   "text": {
+                     "type": "mrkdwn",
+                     "text": "*담당자:* ${{ github.actor }}"
+                   }
+                 },
+                 {
+                   "type": "section",
+                   "text": {
+                     "type": "mrkdwn",
+                     "text": "코드리뷰 마감시간: ${{ steps.deadline.outputs.DEADLINE }}"
+                   }
+                 }
+               ]
+             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+# {
+#   "type": "section",
+#   "text": {
+#     "type": "mrkdwn",
+#     "text": "*PR 내용:* ${{ steps.slack_convert.outputs.SLACK_MESSAGE }}"
+#   }
+# },
