@@ -19,5 +19,5 @@
 ## PR Checklist
 PR이 다음 요구 사항을 충족하는지 확인하세요.
 
-- [ ] 커밋 메시지 컨벤션에 맞게 작성했습니다.  [Commit message convention 참고](https://www.notion.so/slogup/Git-Convention-8e516d7811334369a9148d39db0f2004)  (Ctrl + 클릭하세요.) 
+- [ ] 커밋 메시지 컨벤션에 맞게 작성했습니다.  [Commit message convention 참고](no_link)  (Ctrl + 클릭하세요.) 
 - [ ] 변경 사항에 대한 테스트를 했습니다.(버그 수정/기능에 대한 테스트).
