@@ -29,6 +29,8 @@ PR이 다음 요구 사항을 충족하는지 확인하세요.
 <!--- 이미지 참조하는 방법 ![alt text](http://url/to/img.png) -->
 
 <details>
-<summary><strong>그 외 선택사항</strong></summary>
-  ## 현재 없음
+<summary>그 외 선택사항</summary>
+  
+없음
+
 </details>
