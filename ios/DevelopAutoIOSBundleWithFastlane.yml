@@ -28,7 +28,7 @@ jobs:
       #     key: ${{ secrets.SSH_KEY }}
       #     known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
-      # Step 6 Setup Ruby
+      # Step 2 Setup Ruby
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -36,7 +36,7 @@ jobs:
           working-directory: 'ios'
           bundler-cache: true
 
-      # Step 2 Get Version Name
+      # Step 3 Get Version Name
       - name: Extract Version from Tag
         run: echo "VERSION=$(echo ${{ github.ref }} | sed -n 's/^refs\/tags\/ios-v\([0-9]*\.[0-9]*\.[0-9]*\)/\1/p')" >> $GITHUB_ENV
 
@@ -44,7 +44,7 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      # Step 3 Npm Cache
+      # Step 4 Npm Cache
       - name: Cache node_modules
         id: yarn-cache
         uses: actions/cache@v2
@@ -65,14 +65,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
-      # Step 4 Setup Node
+      # Step 5 Setup Node
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           cache: yarn
 
-      # Step 5 Install Dependencies npm install
+      # Step 6 Install Dependencies npm install
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: yarn install
